@@ -95,7 +95,7 @@ a:focus-visible, button:focus-visible{
 .statusbar .dot-ochre{ color: var(--ochre); }
 
 /* ---------- page shell ---------- */
-main{ max-width: 960px; margin: 0 auto; padding: 56px 20px 20px; }
+main{ max-width: 1440px; margin: 0 auto; padding: 56px 20px 20px; }
 
 .lede{ margin: 0 0 34px; font-size: 13px; color: var(--text-faint); letter-spacing: .04em; }
 .lede .path{ color: var(--orange); }
@@ -313,7 +313,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
 
 /* ---------- info card (matches terminal window chrome) ---------- */
 .infocard{
-  max-width: 460px;
+  max-width: 720px;
   background: var(--bg-term);
   border: 1px solid var(--border);
   border-radius: var(--radius);
