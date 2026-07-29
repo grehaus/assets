@@ -397,7 +397,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
 
 /* ---------- footer ---------- */
 footer{
-  max-width: 960px; margin: 0 auto; padding: 20px 20px 60px;
+  max-width: 960px; margin: 0 auto; padding: 56px 20px 20px; 
   color: var(--text-faint); font-size: 12px;
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
 }
