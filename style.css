@@ -1,3 +1,8 @@
+/* ============================================================
+   grehaus.github.io — shared site styles
+   One file, linked from every page. Edit here, it updates everywhere.
+   ============================================================ */
+
 :root{
   --bg:        #16181b;
   --bg-alt:    #1b1e22;
@@ -145,6 +150,11 @@ section h2 span{ color: var(--orange); }
 /* enlarged terminal body: more breathing room, bigger text */
 .win-body{ padding: 22px 26px 26px; font-size: 15.5px; line-height: 1.7; }
 .win-body .row{ margin: 0 0 8px; white-space: pre-wrap; word-break: break-word; }
+
+/* narrative/commentary text between steps — normal wrapping, so
+   multi-line HTML source (for readability) never affects rendering */
+.win-body .note{ margin: 0 0 16px; color: var(--text-dim); white-space: normal; }
+
 .prompt{ color: var(--sky); }
 .prompt::before{ content:"$ "; color: var(--text-faint); }
 .out{ color: var(--text); }
