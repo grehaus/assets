@@ -1,11 +1,3 @@
-/* ============================================================
-   grehaus.github.io — terminal dot easter eggs
-   One file, linked from every page (same pattern as style.css).
-   Automatically upgrades every .win terminal window's three dots:
-     dot 1 (orange) -> glitch "power cycle" animation
-     dot 2 (ochre)  -> collapse / expand the terminal body
-     dot 3 (sky)    -> hidden matrix-rain message
-   ============================================================ */
 (function () {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -48,7 +40,33 @@
 
   /* ---------- ochre: collapse / expand ---------- */
   function toggleCollapse(win) {
-    win.classList.toggle('is-collapsed');
+    const body = win.querySelector('.win-body');
+    if (!body) { win.classList.toggle('is-collapsed'); return; }
+
+    if (reduceMotion) {
+      win.classList.toggle('is-collapsed');
+      body.style.maxHeight = win.classList.contains('is-collapsed') ? '0px' : 'none';
+      return;
+    }
+
+    const collapsing = !win.classList.contains('is-collapsed');
+
+    if (collapsing) {
+      // lock in the current real height, then animate down to 0
+      body.style.maxHeight = body.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        win.classList.add('is-collapsed');
+        requestAnimationFrame(() => { body.style.maxHeight = '0px'; });
+      });
+    } else {
+      win.classList.remove('is-collapsed');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      body.addEventListener('transitionend', function onEnd(e) {
+        if (e.propertyName !== 'max-height') return;
+        body.style.maxHeight = 'none'; // let it grow freely again, no cap
+        body.removeEventListener('transitionend', onEnd);
+      });
+    }
   }
 
   /* ---------- orange: glitch power-cycle ---------- */
