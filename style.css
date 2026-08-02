@@ -95,7 +95,7 @@ a:focus-visible, button:focus-visible{
 .statusbar .dot-ochre{ color: var(--ochre); }
 
 /* ---------- page shell ---------- */
-main{ max-width: 1440px; margin: 0 auto; padding: 56px 20px 20px; }
+main{ max-width: 960px; margin: 0 auto; padding: 56px 20px 20px; }
 
 .lede{ margin: 0 0 34px; font-size: 13px; color: var(--text-faint); letter-spacing: .04em; }
 .lede .path{ color: var(--orange); }
@@ -149,11 +149,12 @@ section h2 span{ color: var(--orange); }
 
 /* enlarged terminal body: more breathing room, bigger text */
 .win-body{ padding: 22px 26px 26px; font-size: 15.5px; line-height: 1.7; }
-.win-body .row{ margin: 0 0 8px; white-space: pre-wrap; word-break: break-word; }
+.win-body .row{ margin: 34px 0 10px; white-space: pre-wrap; word-break: break-word; }
+.win-body .row:first-child{ margin-top: 0; }
 
 /* narrative/commentary text between steps — normal wrapping, so
    multi-line HTML source (for readability) never affects rendering */
-.win-body .note{ margin: 0 0 16px; color: var(--text-dim); white-space: normal; }
+.win-body .note{ margin: 0 0 22px; color: var(--text-dim); white-space: normal; }
 
 .prompt{ color: var(--sky); }
 .prompt::before{ content:"$ "; color: var(--text-faint); }
@@ -185,7 +186,7 @@ section h2 span{ color: var(--orange); }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px 18px;
-  margin: 4px 0 20px;
+  margin: 6px 0 26px;
   overflow-x: auto;
 }
 .code-block pre{
@@ -324,7 +325,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
 
 /* ---------- info card (matches terminal window chrome) ---------- */
 .infocard{
-  max-width: 720px;
+  max-width: 460px;
   background: var(--bg-term);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -399,6 +400,8 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   color: var(--text-dim);
 }
 .infocard dd.ic-summary{ color: var(--text-dim); line-height: 1.6; }
+.infocard dd.ic-summary strong,
+.win-body .note strong{ color: var(--bright); font-weight: 700; }
 
 /* ---------- footer ---------- */
 footer{
