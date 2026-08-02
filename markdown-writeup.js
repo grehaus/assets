@@ -19,12 +19,20 @@
     const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
     if (!m) return { meta: {}, body: text };
     const meta = {};
-    m[1].split('\n').forEach(line => {
-      const idx = line.indexOf(':');
-      if (idx === -1) return;
-      const key = line.slice(0, idx).trim();
-      const val = line.slice(idx + 1).trim();
-      meta[key] = val;
+    let lastKey = null;
+    m[1].split('\n').forEach(rawLine => {
+      const line = rawLine.trim();
+      if (line === '') return;
+      // a "new key" line looks like: word[-word]*:  followed by a space and value
+      const keyMatch = line.match(/^([A-Za-z][A-Za-z0-9_-]{0,24}):\s?(.*)$/);
+      if (keyMatch) {
+        const key = keyMatch[1];
+        meta[key] = keyMatch[2];
+        lastKey = key;
+      } else if (lastKey) {
+        // continuation of the previous field's value, wrapped onto a new line
+        meta[lastKey] += ' ' + line;
+      }
     });
     return { meta, body: m[2] };
   }
