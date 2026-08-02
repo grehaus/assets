@@ -329,7 +329,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   background: var(--bg-term);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
   margin: 0 0 40px;
   font-size: 14.5px;
