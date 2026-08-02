@@ -433,6 +433,10 @@ footer .prompt::before{ color: var(--text-faint); }
   overflow: hidden;
   transition: max-height .4s ease, opacity .3s ease, padding .4s ease;
 }
+
+.win:not(.is-collapsed) .win-body{
+  max-height: none !important;
+}
 .win.is-collapsed .win-body{
   opacity: 0;
   padding-top: 0;
