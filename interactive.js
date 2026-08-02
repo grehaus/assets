@@ -9,7 +9,7 @@
     "there's no place like 127.0.0.1",
     "you found the easter egg.",
     "nice — try the other dots too.",
-    "sudo make me a sandwich",
+    "sudo ./coffee.sh",
   ];
 
   function upgradeWindow(win) {
@@ -76,7 +76,7 @@
     win.addEventListener('animationend', () => win.classList.remove('is-glitching'), { once: true });
   }
 
-  /* ---------- sky: matrix rain + hidden message ---------- */
+  /* ---------- green: matrix rain + hidden message ---------- */
   function doMatrix(win) {
     if (win.querySelector('.matrix-overlay')) return; // already running
     const body = win.querySelector('.win-body');
@@ -105,7 +105,7 @@
     canvas.width = body.clientWidth || win.clientWidth;
     canvas.height = body.clientHeight || 220;
 
-    const chars = '01ABCDEF{}<>/#$';
+    const chars = '01ABCDEF{}<>/#$!@*&';
     const fontSize = 13;
     const columns = Math.max(1, Math.floor(canvas.width / fontSize));
     const drops = new Array(columns).fill(1);
@@ -120,7 +120,7 @@
 
       for (let i = 0; i < drops.length; i++) {
         const char = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillStyle = Math.random() > 0.94 ? '#d3a526' : '#6fc3e6';
+        ctx.fillStyle = Math.random() > 0.94 ? '#ffc857' : '#3ddc84';
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
