@@ -1,3 +1,8 @@
+/* ============================================================
+   grehaus.github.io — shared site styles
+   One file, linked from every page. Edit here, it updates everywhere.
+   ============================================================ */
+
 :root{
   --bg:        #070a0c;
   --bg-alt:    #0b1115;
@@ -13,14 +18,14 @@
   --bright:    #e6fff8;
 
   /* Primary terminal accents */
-  --sky:       #00e5ff;
-  --sky-dim:   rgba(0,229,255,0.14);
+  --green:     #3ddc84;
+  --green-dim: rgba(61,220,132,0.14);
 
   --ochre:     #ffc857;
   --ochre-dim: rgba(255,200,87,0.14);
 
-  --orange:    #ff7043;
-  --orange-dim:rgba(255,112,67,0.14);
+  --rust:      #e0553c;
+  --rust-dim:  rgba(224,85,60,0.14);
 
   /* Difficulty scale */
   --diff-easy:    #32ff7e;
@@ -45,18 +50,18 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-a{ color: var(--sky); text-decoration: none; }
-a:hover{ text-decoration: underline; text-decoration-color: var(--sky); }
+a{ color: var(--green); text-decoration: none; }
+a:hover{ text-decoration: underline; text-decoration-color: var(--green); }
 a:focus-visible, button:focus-visible{
-  outline: 2px solid var(--sky);
+  outline: 2px solid var(--green);
   outline-offset: 2px;
 }
 
-::selection{ background: var(--sky-dim); color: var(--bright); }
+::selection{ background: var(--green-dim); color: var(--bright); }
 
 /* ---------- boot log (rendered inside the whoami terminal) ---------- */
 .win-body .ok{ color: var(--ochre); }
-.win-body .tag{ color: var(--orange); }
+.win-body .tag{ color: var(--rust); }
 
 /* ---------- scanline texture (subtle) ---------- */
 .crt::before{
@@ -88,7 +93,7 @@ a:focus-visible, button:focus-visible{
 .statusbar .brand::before{ content:"~/"; color: var(--text-faint); }
 .statusbar nav{ display:flex; gap:18px; }
 .statusbar nav a{ color: var(--text-dim); }
-.statusbar nav a:hover{ color: var(--sky); text-decoration:none; }
+.statusbar nav a:hover{ color: var(--green); text-decoration:none; }
 .statusbar .sys{ color: var(--text-faint); display:flex; gap:14px; }
 .statusbar .sys span::before{ content:"·"; margin-right:14px; color: var(--border-hi); }
 .statusbar .sys span:first-child::before{ content:""; margin-right:0; }
@@ -98,10 +103,10 @@ a:focus-visible, button:focus-visible{
 main{ max-width: 1440px; margin: 0 auto; padding: 56px 20px 20px; }
 
 .lede{ margin: 0 0 34px; font-size: 13px; color: var(--text-faint); letter-spacing: .04em; }
-.lede .path{ color: var(--orange); }
+.lede .path{ color: var(--rust); }
 .lede.back{ margin-bottom: 30px; }
 .lede.back a{ color: var(--text-dim); }
-.lede.back a:hover{ color: var(--sky); }
+.lede.back a:hover{ color: var(--green); }
 
 section{ margin-bottom: 56px; scroll-margin-top: 70px; }
 section h2{
@@ -112,7 +117,7 @@ section h2{
   margin: 0 0 12px;
   font-weight: 600;
 }
-section h2 span{ color: var(--orange); }
+section h2 span{ color: var(--rust); }
 
 /* ---------- terminal window ---------- */
 .win{
@@ -138,9 +143,9 @@ section h2 span{ color: var(--orange); }
 .win-dots button.win-dot{ cursor:pointer; transition: transform .15s ease; }
 .win-dots button.win-dot:hover{ transform: scale(1.15); }
 .win-dots button.win-dot:focus-visible{ outline:2px solid var(--bright); outline-offset:2px; }
-.win-dots span:nth-child(1), .win-dots button.win-dot:nth-child(1){ background: var(--orange); }
+.win-dots span:nth-child(1), .win-dots button.win-dot:nth-child(1){ background: var(--rust); }
 .win-dots span:nth-child(2), .win-dots button.win-dot:nth-child(2){ background: var(--ochre); }
-.win-dots span:nth-child(3), .win-dots button.win-dot:nth-child(3){ background: var(--sky); }
+.win-dots span:nth-child(3), .win-dots button.win-dot:nth-child(3){ background: var(--green); }
 .win-title{
   flex:1; text-align:center;
   font-size: 12px; color: var(--text-dim);
@@ -153,23 +158,33 @@ section h2 span{ color: var(--orange); }
 .win-body .row:first-child{ margin-top: 0; }
 
 /* narrative/commentary text between steps — normal wrapping, so
-   multi-line HTML source (for readability) never affects rendering */
-.win-body .note{ margin: 0 0 22px; color: var(--text-dim); white-space: normal; }
+   multi-line HTML source (for readability) never affects rendering.
+   overflow-wrap is required here: without it, one long unbroken
+   string (a URL, a hash, etc.) forces the whole page wider than the
+   viewport, which is what was pushing the terminal's right border
+   off-screen and cutting off the info card. */
+.win-body .note{
+  margin: 0 0 22px;
+  color: var(--text-dim);
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 
-.prompt{ color: var(--sky); }
+.prompt{ color: var(--green); }
 .prompt::before{ content:"$ "; color: var(--text-faint); }
 .out{ color: var(--text); }
 .out.dim{ color: var(--text-dim); }
 .out.bright{ color: var(--bright); font-weight: 600; }
 .accent-ochre{ color: var(--ochre); }
-.accent-orange{ color: var(--orange); }
-.accent-sky{ color: var(--sky); }
+.accent-orange{ color: var(--rust); }
+.accent-sky{ color: var(--green); }
 .gap{ height: 14px; }
-.step-num{ color: var(--orange); font-weight: 700; margin-right: 6px; }
+.step-num{ color: var(--rust); font-weight: 700; margin-right: 6px; }
 
 .cursor{
   display:inline-block; width:8px; height:15px;
-  background: var(--sky);
+  background: var(--green);
   margin-left: 3px;
   vertical-align: -2px;
   animation: blink 1s steps(1) infinite;
@@ -197,7 +212,7 @@ section h2 span{ color: var(--orange); }
   white-space: pre;
   color: var(--text);
 }
-.code-block .cmd{ color: var(--sky); }
+.code-block .cmd{ color: var(--green); }
 .code-block .cmd::before{ content:"$ "; color: var(--text-faint); }
 .code-block .out{ color: var(--text-dim); }
 .code-block .hl{ color: var(--ochre); }
@@ -211,7 +226,9 @@ code{
   border-radius: 4px;
   padding: 1px 6px;
   font-size: 0.92em;
-  color: var(--sky);
+  color: var(--green);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ---------- ls -l listing ---------- */
@@ -228,7 +245,7 @@ code{
 .ls-perm.exec{ color: var(--ochre); }
 .ls-size{ color: var(--text-faint); text-align:right; font-size: 13px; }
 .ls-name a, .ls-name span{ color: var(--bright); }
-.ls-name a{ color: var(--sky); font-size: 15px; }
+.ls-name a{ color: var(--green); font-size: 15px; }
 .ls-name a:hover{ color: var(--bright); }
 .ls-name span.disabled{ color: var(--text-dim); font-size: 15px; }
 .ls-desc{ display:block; color: var(--text-dim); font-size: 12.5px; margin-top: 3px; }
@@ -254,8 +271,8 @@ code{
   padding: 8px 14px; border-radius: var(--radius);
   font-size: 13px; transition: border-color .15s, color .15s;
 }
-.contact-links a:hover{ border-color: var(--sky); color: var(--sky); text-decoration:none; }
-.contact-links a::before{ content:"→"; color: var(--orange); }
+.contact-links a:hover{ border-color: var(--green); color: var(--green); text-decoration:none; }
+.contact-links a::before{ content:"→"; color: var(--rust); }
 
 /* ---------- category tabs (Labs / Sherlocks / Challenges) ---------- */
 .cat-bar{ display:flex; gap:10px; margin-bottom:0; flex-wrap:wrap; }
@@ -273,7 +290,7 @@ code{
 }
 .cat-btn::before{ content:"›"; color: var(--text-faint); transition: transform .15s ease; display:inline-block; }
 .cat-btn[aria-expanded="true"]{ color: var(--bright); background: var(--bg-term); border-color: var(--border-hi); }
-.cat-btn[aria-expanded="true"]::before{ content:"›"; color: var(--sky); transform: rotate(90deg); }
+.cat-btn[aria-expanded="true"]::before{ content:"›"; color: var(--green); transform: rotate(90deg); }
 .cat-btn:hover{ color: var(--text); }
 
 .cat-panels{
@@ -299,7 +316,7 @@ code{
 }
 .entry-link:last-child{ border-bottom:none; }
 a.entry-link:hover{ background: rgba(255,255,255,0.02); text-decoration:none; }
-a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-color: var(--sky); }
+a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-color: var(--green); }
 
 .entry-name{ font-weight:700; color: var(--bright); font-size: 15px; min-width: 66px; }
 
@@ -329,7 +346,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   background: var(--bg-term);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: visible;
+  overflow: hidden;
   box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
   margin: 0 0 40px;
   font-size: 14.5px;
@@ -342,9 +359,9 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
 }
 .infocard .ic-dots{ display:flex; gap:7px; }
 .infocard .ic-dots span{ width:11px; height:11px; border-radius:50%; display:block; }
-.infocard .ic-dots span:nth-child(1){ background: var(--orange); }
+.infocard .ic-dots span:nth-child(1){ background: var(--rust); }
 .infocard .ic-dots span:nth-child(2){ background: var(--ochre); }
-.infocard .ic-dots span:nth-child(3){ background: var(--sky); }
+.infocard .ic-dots span:nth-child(3){ background: var(--green); }
 .infocard .ic-bar-title{
   flex:1; text-align:center;
   font-size: 12px; color: var(--text-dim);
@@ -357,7 +374,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--bg);
-  background: var(--sky);
+  background: var(--green);
   padding: 2px 7px;
   border-radius: 3px;
   margin-bottom: 10px;
@@ -375,7 +392,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
 }
 .infocard .ic-row:first-of-type{ border-top: none; padding-top: 0; }
 .infocard dt{ color: var(--text-faint); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
-.infocard dd{ margin: 0; color: var(--text); }
+.infocard dd{ margin: 0; color: var(--text); overflow-wrap: break-word; word-break: break-word; }
 
 .diff-word{ font-weight: 700; }
 .diff-bar{ display:inline-flex; gap: 2px; margin-left: 10px; vertical-align: 2px; }
@@ -399,7 +416,12 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   border: 1px solid var(--border-hi);
   color: var(--text-dim);
 }
-.infocard dd.ic-summary{ color: var(--text-dim); line-height: 1.6; }
+.infocard dd.ic-summary{
+  color: var(--text-dim);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 .infocard dd.ic-summary strong,
 .win-body .note strong{ color: var(--bright); font-weight: 700; }
 
@@ -424,18 +446,17 @@ footer .prompt::before{ color: var(--text-faint); }
 
 /* ============================================================
    terminal dot easter eggs (see /assets/interactive.js)
-   ochre  = collapse/expand   orange = glitch power-cycle
-   sky    = matrix rain + hidden message
+   ochre = collapse/expand   rust = glitch power-cycle   green = matrix rain
    ============================================================ */
 
-/* ochre dot: collapse/expand — height is set dynamically in JS, not capped here */
+/* ochre dot: collapse/expand — height is set dynamically in JS.
+   No !important here: the JS resets max-height to 'none' itself once
+   the expand transition finishes, which is what keeps the animation
+   smooth. An !important override here would just fight the JS and
+   make it snap instead of animate. */
 .win-body{
   overflow: hidden;
   transition: max-height .4s ease, opacity .3s ease, padding .4s ease;
-}
-
-.win:not(.is-collapsed) .win-body{
-  max-height: none !important;
 }
 .win.is-collapsed .win-body{
   opacity: 0;
@@ -443,7 +464,7 @@ footer .prompt::before{ color: var(--text-faint); }
   padding-bottom: 0;
 }
 
-/* orange dot: glitch power-cycle */
+/* rust dot: glitch power-cycle */
 .win.is-glitching{ animation: winGlitch .7s steps(2, end); }
 @keyframes winGlitch{
   0%   { filter: none; transform: translate(0,0); }
@@ -457,7 +478,7 @@ footer .prompt::before{ color: var(--text-faint); }
   100% { filter: none; transform: translate(0,0); }
 }
 
-/* sky dot: matrix rain overlay */
+/* green dot: matrix rain overlay */
 .matrix-overlay{
   position:absolute; inset:0;
   background: var(--bg-term);
@@ -473,7 +494,7 @@ footer .prompt::before{ color: var(--text-faint); }
   color: var(--ochre); font-family: var(--mono); font-weight:700;
   font-size: 14px; letter-spacing:.04em; opacity:0; transition: opacity .4s ease;
   text-align:center; padding: 0 24px;
-  text-shadow: 0 0 14px rgba(211,165,38,.5);
+  text-shadow: 0 0 14px rgba(255,200,87,.5);
 }
 .matrix-overlay .msg.show{ opacity:1; }
 
