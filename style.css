@@ -318,7 +318,7 @@ code{
 a.entry-link:hover{ background: rgba(255,255,255,0.02); text-decoration:none; }
 a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-color: var(--green); }
 
-.entry-name{ font-weight:700; color: var(--bright); font-size: 15px; min-width: 66px; }
+.entry-name{ font-weight:700; color: var(--bright); font-size: 15px; width: 130px; flex-shrink: 0; }
 
 .entry-bar{ display:inline-flex; gap:2px; flex-shrink:0; }
 .entry-bar span{ width:9px; height:11px; background:var(--border); border-radius:1px; }
@@ -424,6 +424,39 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
 }
 .infocard dd.ic-summary strong,
 .win-body .note strong{ color: var(--bright); font-weight: 700; }
+
+/* ---------- info card v2: "machine card" layout (markdown-rendered only) ---------- */
+.ic-header{ margin-bottom: 4px; }
+.ic-header .ic-title{ margin: 2px 0 6px; }
+.ic-os{
+  margin: 0 0 10px; color: var(--text-dim); font-size: 13px;
+}
+.ic-diff{ margin: 0 0 8px; display:flex; align-items:center; gap: 12px; }
+.ic-diff .diff-word{ font-size: 14px; }
+.diff-blocks{ display:inline-flex; gap: 3px; vertical-align: 1px; }
+.diff-blocks span{ width: 11px; height: 15px; background: var(--border); border-radius: 2px; }
+.diff-blocks span.filled{ background: var(--diff-color); }
+.ic-released{ margin: 0; color: var(--text-faint); font-size: 12.5px; }
+
+.ic-rule{
+  border: none; border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+.ic-section h3{
+  font-size: 11px; text-transform: uppercase; letter-spacing: .14em;
+  color: var(--text-faint); margin: 0 0 8px; font-weight: 600;
+}
+.ic-section + .ic-rule{ margin-top: 16px; }
+.ic-section .ic-summary{
+  margin: 0; color: var(--text-dim); line-height: 1.6;
+  overflow-wrap: break-word; word-break: break-word;
+}
+.ic-section .ic-skills{
+  margin: 0; color: var(--text); line-height: 1.7;
+  overflow-wrap: break-word; word-break: break-word;
+}
+.ic-skills .dot-sep{ color: var(--ochre); margin: 0 2px; }
 
 /* ---------- footer ---------- */
 footer{
