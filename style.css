@@ -4,28 +4,31 @@
    ============================================================ */
 
 :root{
-  --bg:        #070a0c;
-  --bg-alt:    #0b1115;
-  --bg-term:   #030506;
-  --bg-chip:   #0d1519;
+  --bg:        #17181a;
+  --bg-alt:    #1c1d20;
+  --bg-term:   #101112;
+  --bg-chip:   #0c0d0e;
 
-  --border:    #183038;
-  --border-hi: #28515a;
+  --border:    #2b2c2f;
+  --border-hi: #3d3f43;
 
-  --text:      #b8d8d2;
-  --text-dim:  #71928d;
-  --text-faint:#385451;
-  --bright:    #e6fff8;
+  --text:      #cfd1d4;
+  --text-dim:  #8b8e93;
+  --text-faint:#55585c;
+  --bright:    #f4f5f6;
 
   /* Primary terminal accents */
-  --green:     #3ddc84;
-  --green-dim: rgba(61,220,132,0.14);
+  --turquoise:     #2fe1c9;
+  --turquoise-dim: rgba(47,225,201,0.14);
 
   --ochre:     #ffc857;
   --ochre-dim: rgba(255,200,87,0.14);
 
   --rust:      #e0553c;
   --rust-dim:  rgba(224,85,60,0.14);
+
+  --acid:      #96ff3f;
+  --acid-dim:  rgba(150,255,63,0.14);
 
   /* Difficulty scale */
   --diff-easy:    #32ff7e;
@@ -50,14 +53,14 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-a{ color: var(--green); text-decoration: none; }
-a:hover{ text-decoration: underline; text-decoration-color: var(--green); }
+a{ color: var(--turquoise); text-decoration: none; }
+a:hover{ text-decoration: underline; text-decoration-color: var(--turquoise); }
 a:focus-visible, button:focus-visible{
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--turquoise);
   outline-offset: 2px;
 }
 
-::selection{ background: var(--green-dim); color: var(--bright); }
+::selection{ background: var(--turquoise-dim); color: var(--bright); }
 
 /* ---------- boot log (rendered inside the whoami terminal) ---------- */
 .win-body .ok{ color: var(--ochre); }
@@ -93,7 +96,7 @@ a:focus-visible, button:focus-visible{
 .statusbar .brand::before{ content:"~/"; color: var(--text-faint); }
 .statusbar nav{ display:flex; gap:18px; }
 .statusbar nav a{ color: var(--text-dim); }
-.statusbar nav a:hover{ color: var(--green); text-decoration:none; }
+.statusbar nav a:hover{ color: var(--turquoise); text-decoration:none; }
 .statusbar .sys{ color: var(--text-faint); display:flex; gap:14px; }
 .statusbar .sys span::before{ content:"·"; margin-right:14px; color: var(--border-hi); }
 .statusbar .sys span:first-child::before{ content:""; margin-right:0; }
@@ -106,7 +109,7 @@ main{ max-width: 1440px; margin: 0 auto; padding: 56px 20px 20px; }
 .lede .path{ color: var(--rust); }
 .lede.back{ margin-bottom: 30px; }
 .lede.back a{ color: var(--text-dim); }
-.lede.back a:hover{ color: var(--green); }
+.lede.back a:hover{ color: var(--turquoise); }
 
 section{ margin-bottom: 56px; scroll-margin-top: 70px; }
 section h2{
@@ -145,7 +148,7 @@ section h2 span{ color: var(--rust); }
 .win-dots button.win-dot:focus-visible{ outline:2px solid var(--bright); outline-offset:2px; }
 .win-dots span:nth-child(1), .win-dots button.win-dot:nth-child(1){ background: var(--rust); }
 .win-dots span:nth-child(2), .win-dots button.win-dot:nth-child(2){ background: var(--ochre); }
-.win-dots span:nth-child(3), .win-dots button.win-dot:nth-child(3){ background: var(--green); }
+.win-dots span:nth-child(3), .win-dots button.win-dot:nth-child(3){ background: var(--turquoise); }
 .win-title{
   flex:1; text-align:center;
   font-size: 12px; color: var(--text-dim);
@@ -171,20 +174,20 @@ section h2 span{ color: var(--rust); }
   word-break: break-word;
 }
 
-.prompt{ color: var(--green); }
+.prompt{ color: var(--turquoise); }
 .prompt::before{ content:"$ "; color: var(--text-faint); }
 .out{ color: var(--text); }
 .out.dim{ color: var(--text-dim); }
 .out.bright{ color: var(--bright); font-weight: 600; }
 .accent-ochre{ color: var(--ochre); }
 .accent-orange{ color: var(--rust); }
-.accent-sky{ color: var(--green); }
+.accent-sky{ color: var(--turquoise); }
 .gap{ height: 14px; }
 .step-num{ color: var(--rust); font-weight: 700; margin-right: 6px; }
 
 .cursor{
   display:inline-block; width:8px; height:15px;
-  background: var(--green);
+  background: var(--turquoise);
   margin-left: 3px;
   vertical-align: -2px;
   animation: blink 1s steps(1) infinite;
@@ -212,10 +215,10 @@ section h2 span{ color: var(--rust); }
   white-space: pre;
   color: var(--text);
 }
-.code-block .cmd{ color: var(--green); }
+.code-block .cmd{ color: var(--turquoise); }
 .code-block .cmd::before{ content:"$ "; color: var(--text-faint); }
 .code-block .out{ color: var(--text-dim); }
-.code-block .hl{ color: var(--ochre); }
+.code-block .hl{ color: var(--acid); }
 
 /* ---------- inline emphasis inside prose (summaries, notes) ---------- */
 .lead{ color: var(--bright); font-weight: 700; }
@@ -226,7 +229,7 @@ code{
   border-radius: 4px;
   padding: 1px 6px;
   font-size: 0.92em;
-  color: var(--green);
+  color: var(--turquoise);
   overflow-wrap: break-word;
   word-break: break-word;
 }
@@ -245,7 +248,7 @@ code{
 .ls-perm.exec{ color: var(--ochre); }
 .ls-size{ color: var(--text-faint); text-align:right; font-size: 13px; }
 .ls-name a, .ls-name span{ color: var(--bright); }
-.ls-name a{ color: var(--green); font-size: 15px; }
+.ls-name a{ color: var(--turquoise); font-size: 15px; }
 .ls-name a:hover{ color: var(--bright); }
 .ls-name span.disabled{ color: var(--text-dim); font-size: 15px; }
 .ls-desc{ display:block; color: var(--text-dim); font-size: 12.5px; margin-top: 3px; }
@@ -271,7 +274,7 @@ code{
   padding: 8px 14px; border-radius: var(--radius);
   font-size: 13px; transition: border-color .15s, color .15s;
 }
-.contact-links a:hover{ border-color: var(--green); color: var(--green); text-decoration:none; }
+.contact-links a:hover{ border-color: var(--turquoise); color: var(--turquoise); text-decoration:none; }
 .contact-links a::before{ content:"→"; color: var(--rust); }
 
 /* ---------- category tabs (Labs / Sherlocks / Challenges) ---------- */
@@ -290,7 +293,7 @@ code{
 }
 .cat-btn::before{ content:"›"; color: var(--text-faint); transition: transform .15s ease; display:inline-block; }
 .cat-btn[aria-expanded="true"]{ color: var(--bright); background: var(--bg-term); border-color: var(--border-hi); }
-.cat-btn[aria-expanded="true"]::before{ content:"›"; color: var(--green); transform: rotate(90deg); }
+.cat-btn[aria-expanded="true"]::before{ content:"›"; color: var(--turquoise); transform: rotate(90deg); }
 .cat-btn:hover{ color: var(--text); }
 
 .cat-panels{
@@ -316,7 +319,7 @@ code{
 }
 .entry-link:last-child{ border-bottom:none; }
 a.entry-link:hover{ background: rgba(255,255,255,0.02); text-decoration:none; }
-a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-color: var(--green); }
+a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-color: var(--turquoise); }
 
 .entry-name{ font-weight:700; color: var(--bright); font-size: 15px; width: 130px; flex-shrink: 0; }
 
@@ -361,7 +364,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
 .infocard .ic-dots span{ width:11px; height:11px; border-radius:50%; display:block; }
 .infocard .ic-dots span:nth-child(1){ background: var(--rust); }
 .infocard .ic-dots span:nth-child(2){ background: var(--ochre); }
-.infocard .ic-dots span:nth-child(3){ background: var(--green); }
+.infocard .ic-dots span:nth-child(3){ background: var(--turquoise); }
 .infocard .ic-bar-title{
   flex:1; text-align:center;
   font-size: 12px; color: var(--text-dim);
@@ -374,7 +377,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--bg);
-  background: var(--green);
+  background: var(--turquoise);
   padding: 2px 7px;
   border-radius: 3px;
   margin-bottom: 10px;
@@ -479,7 +482,7 @@ footer .prompt::before{ color: var(--text-faint); }
 
 /* ============================================================
    terminal dot easter eggs (see /assets/interactive.js)
-   ochre = collapse/expand   rust = glitch power-cycle   green = matrix rain
+   ochre = collapse/expand   rust = glitch power-cycle   turquoise = matrix rain
    ============================================================ */
 
 /* ochre dot: collapse/expand — height is set dynamically in JS.
@@ -511,7 +514,7 @@ footer .prompt::before{ color: var(--text-faint); }
   100% { filter: none; transform: translate(0,0); }
 }
 
-/* green dot: matrix rain overlay */
+/* turquoise dot: matrix rain overlay */
 .matrix-overlay{
   position:absolute; inset:0;
   background: var(--bg-term);

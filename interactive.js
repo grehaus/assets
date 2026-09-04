@@ -1,3 +1,11 @@
+/* ============================================================
+   grehaus.github.io — terminal dot easter eggs
+   One file, linked from every page (same pattern as style.css).
+   Automatically upgrades every .win terminal window's three dots:
+     dot 1 (orange) -> glitch "power cycle" animation
+     dot 2 (ochre)  -> collapse / expand the terminal body
+     dot 3 (sky)    -> hidden matrix-rain message
+   ============================================================ */
 (function () {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -9,7 +17,7 @@
     "there's no place like 127.0.0.1",
     "you found the easter egg.",
     "nice — try the other dots too.",
-    "sudo ./coffee.sh",
+    "sudo make me a sandwich",
   ];
 
   function upgradeWindow(win) {
@@ -76,7 +84,7 @@
     win.addEventListener('animationend', () => win.classList.remove('is-glitching'), { once: true });
   }
 
-  /* ---------- green: matrix rain + hidden message ---------- */
+  /* ---------- sky: matrix rain + hidden message ---------- */
   function doMatrix(win) {
     if (win.querySelector('.matrix-overlay')) return; // already running
     const body = win.querySelector('.win-body');
@@ -105,7 +113,7 @@
     canvas.width = body.clientWidth || win.clientWidth;
     canvas.height = body.clientHeight || 220;
 
-    const chars = '01ABCDEF{}<>/#$!@*&';
+    const chars = '01ABCDEF{}<>/#$';
     const fontSize = 13;
     const columns = Math.max(1, Math.floor(canvas.width / fontSize));
     const drops = new Array(columns).fill(1);
@@ -120,7 +128,7 @@
 
       for (let i = 0; i < drops.length; i++) {
         const char = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillStyle = Math.random() > 0.94 ? '#ffc857' : '#3ddc84';
+        ctx.fillStyle = Math.random() > 0.94 ? '#ffc857' : '#2fe1c9';
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
