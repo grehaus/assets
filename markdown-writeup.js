@@ -1,3 +1,53 @@
+/* ============================================================
+   grehaus.github.io — markdown write-up renderer
+   Fetches ./content.md (next to whatever page this script runs on),
+   parses it, and fills in #infocard-mount and #term-mount.
+
+   content.md format:
+
+     ---
+     source: Hack The Box
+     title: Lab01
+     difficulty: medium        (easy | medium | hard | insane)
+     tags: SMB, Web Exploitation, Active Directory
+     summary: **Lab01:** short summary here, `code` and **bold** work.
+     ---
+
+     ## [01] Step label
+     ```term
+     $ command goes here
+     plain output line
+     !!this line gets highlighted acid-green — the !! is stripped
+     ??this line gets highlighted turquoise — a second, distinct tier
+     ```
+
+     A paragraph of narrative text between steps. `code` and **bold**
+     work here too. Can be written across multiple source lines freely.
+
+     > A blockquote/callout — renders as a distinct tinted box with a
+     > colored left border. Good for asides, gotchas, or "here's an
+     > article that helped me" notes. Consecutive `>` lines join into
+     > one callout; a blank line ends it.
+
+     - A bullet list item
+     - Another item
+       (list ends at the first blank line or non "- " line)
+
+     ![alt text](path/to/image.png)
+     (a line that is ONLY an image tag becomes its own full-width
+     figure; ![alt](src) written mid-sentence in a paragraph instead
+     renders inline)
+
+     ## [02] Next step
+     ...
+
+   Notes:
+   - A ```term block whose first line does NOT start with "$ " is
+     rendered as plain output only (no command line) — use this for
+     pasting raw code/config files, not just command+output pairs.
+   - Everything inside ```term blocks and paragraphs is HTML-escaped
+     automatically. Never worry about <, >, & again.
+   ============================================================ */
 (function () {
   const DIFF_FILL = { easy: 2, medium: 5, hard: 8, insane: 10 };
 
@@ -8,10 +58,14 @@
       .replace(/>/g, '&gt;');
   }
 
+  const IMAGE_RE = /^!\[([^\]]*)\]\(([^)]+)\)$/;
+
   function inlineFormat(raw) {
     let s = escapeHTML(raw);
     s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
     s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    // inline image, e.g. mid-sentence: ![alt](path.png)
+    s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img class="wu-inline-img" src="$2" alt="$1">');
     return s;
   }
 
@@ -40,45 +94,77 @@
   function parseBlocks(body) {
     const lines = body.replace(/\r\n/g, '\n').split('\n');
     const blocks = [];
-    let para = [];
     let inCode = false;
     let codeLines = [];
 
-    function flushPara() {
-      if (para.length) {
-        blocks.push({ type: 'para', text: para.join(' ').trim() });
-        para = [];
+    // mode tracks which multi-line block we're currently accumulating:
+    // null | 'para' | 'quote' | 'list'
+    let mode = null;
+    let paraBuf = [];
+    let quoteBuf = [];
+    let listBuf = [];
+
+    function flush() {
+      if (mode === 'para' && paraBuf.length) {
+        blocks.push({ type: 'para', text: paraBuf.join(' ').trim() });
+      } else if (mode === 'quote' && quoteBuf.length) {
+        blocks.push({ type: 'quote', text: quoteBuf.join(' ').trim() });
+      } else if (mode === 'list' && listBuf.length) {
+        blocks.push({ type: 'list', items: listBuf.slice() });
       }
+      paraBuf = []; quoteBuf = []; listBuf = []; mode = null;
     }
 
-    for (const line of lines) {
+    for (const rawLine of lines) {
       if (inCode) {
-        if (line.trim() === '```') {
+        if (rawLine.trim() === '```') {
           blocks.push({ type: 'code', lines: codeLines });
           codeLines = [];
           inCode = false;
         } else {
-          codeLines.push(line);
+          codeLines.push(rawLine);
         }
         continue;
       }
-      if (line.trim().startsWith('```')) {
-        flushPara();
+
+      const line = rawLine.trim();
+
+      if (line.startsWith('```')) {
+        flush();
         inCode = true;
         continue;
       }
       if (/^##\s+/.test(line)) {
-        flushPara();
+        flush();
         blocks.push({ type: 'heading', text: line.replace(/^##\s+/, '').trim() });
         continue;
       }
-      if (line.trim() === '') {
-        flushPara();
+      if (line === '') {
+        flush();
         continue;
       }
-      para.push(line.trim());
+      const imgMatch = line.match(IMAGE_RE);
+      if (imgMatch) {
+        flush();
+        blocks.push({ type: 'image', alt: imgMatch[1], src: imgMatch[2] });
+        continue;
+      }
+      if (line.startsWith('>')) {
+        const content = line.replace(/^>\s?/, '');
+        if (mode !== 'quote') { flush(); mode = 'quote'; }
+        quoteBuf.push(content);
+        continue;
+      }
+      if (/^[-*]\s+/.test(line)) {
+        const content = line.replace(/^[-*]\s+/, '');
+        if (mode !== 'list') { flush(); mode = 'list'; }
+        listBuf.push(content);
+        continue;
+      }
+      if (mode !== 'para') { flush(); mode = 'para'; }
+      paraBuf.push(line);
     }
-    flushPara();
+    flush();
     return blocks;
   }
 
@@ -95,33 +181,32 @@
     const filled = DIFF_FILL[difficulty] || 2;
     const tags = (meta.tags || '').split(',').map(t => t.trim()).filter(Boolean);
     const word = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+    const title = escapeHTML(meta.title || 'writeup');
 
     return `
 <div class="infocard difficulty-${difficulty}">
   <div class="ic-bar">
     <div class="ic-dots"><span></span><span></span><span></span></div>
-    <div class="ic-bar-title">cat ${escapeHTML(meta.title || 'writeup')}.info</div>
+    <div class="ic-bar-title">${title}.info</div>
   </div>
   <div class="ic-body">
-    <span class="ic-source">${escapeHTML(meta.source || '')}</span>
-    <p class="ic-title">${escapeHTML(meta.title || '')}</p>
-    <dl>
-      <div class="ic-row">
-        <dt>Difficulty</dt>
-        <dd>
-          <span class="diff-word">${word}</span>
-          <span class="diff-bar" aria-hidden="true">${renderDiffBar(filled)}</span>
-        </dd>
-      </div>
-      <div class="ic-row">
-        <dt>Tags</dt>
-        <dd class="ic-tags">${tags.map(t => `<span>${escapeHTML(t)}</span>`).join('')}</dd>
-      </div>
-      <div class="ic-row">
-        <dt>Summary</dt>
-        <dd class="ic-summary">${inlineFormat(meta.summary || '')}</dd>
-      </div>
-    </dl>
+    <div class="ic-header">
+      <span class="ic-source">${escapeHTML(meta.source || '')}</span>
+      <p class="ic-title">${title}</p>
+      ${meta.os ? `<p class="ic-os">${escapeHTML(meta.os)}</p>` : ''}
+      <p class="ic-diff"><span class="diff-word">${word}</span><span class="diff-blocks" aria-hidden="true">${renderDiffBar(filled)}</span></p>
+      ${meta.released ? `<p class="ic-released">Released: ${escapeHTML(meta.released)}</p>` : ''}
+    </div>
+    <hr class="ic-rule">
+    <div class="ic-section">
+      <h3>Summary</h3>
+      <p class="ic-summary">${inlineFormat(meta.summary || '')}</p>
+    </div>
+    <hr class="ic-rule">
+    <div class="ic-section">
+      <h3>Skills</h3>
+      <p class="ic-skills">${tags.map(t => escapeHTML(t)).join(' <span class="dot-sep">•</span> ')}</p>
+    </div>
   </div>
 </div>`.trim();
   }
@@ -148,20 +233,40 @@
     }
     if (out.length) {
       const outHTML = out.map(l => {
-        let hl = false;
-        if (l.startsWith('!!')) { hl = true; l = l.slice(2); }
+        let cls = null;
+        if (l.startsWith('!!')) { cls = 'hl'; l = l.slice(2); }
+        else if (l.startsWith('??')) { cls = 'hl2'; l = l.slice(2); }
         const esc = escapeHTML(l);
-        return hl ? `<span class="hl">${esc}</span>` : esc;
+        return cls ? `<span class="${cls}">${esc}</span>` : esc;
       }).join('\n');
       inner += `<span class="out">${outHTML}</span>`;
     }
     return `<div class="code-block"><pre>${inner}</pre></div>`;
   }
 
+  function renderQuote(text) {
+    return `<blockquote class="wu-quote">${inlineFormat(text)}</blockquote>`;
+  }
+
+  function renderList(items) {
+    const li = items.map(i => `<li>${inlineFormat(i)}</li>`).join('');
+    return `<ul class="wu-list">${li}</ul>`;
+  }
+
+  function renderImage(alt, src) {
+    const safeSrc = escapeHTML(src);
+    const safeAlt = escapeHTML(alt);
+    const caption = alt ? `<figcaption>${inlineFormat(alt)}</figcaption>` : '';
+    return `<figure class="wu-image"><img src="${safeSrc}" alt="${safeAlt}">${caption}</figure>`;
+  }
+
   function renderBody(blocks) {
     return blocks.map(b => {
       if (b.type === 'heading') return renderHeading(b.text);
       if (b.type === 'code') return renderCode(b.lines);
+      if (b.type === 'quote') return renderQuote(b.text);
+      if (b.type === 'list') return renderList(b.items);
+      if (b.type === 'image') return renderImage(b.alt, b.src);
       return `<p class="note">${inlineFormat(b.text)}</p>`;
     }).join('\n');
   }

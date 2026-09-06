@@ -219,6 +219,65 @@ section h2 span{ color: var(--rust); }
 .code-block .cmd::before{ content:"$ "; color: var(--text-faint); }
 .code-block .out{ color: var(--text-dim); }
 .code-block .hl{ color: var(--acid); }
+.code-block .hl2{ color: var(--turquoise); }
+
+/* ---------- markdown callouts, lists, images ---------- */
+.wu-quote{
+  margin: 0 0 22px;
+  padding: 12px 18px;
+  background: var(--bg-chip);
+  border-left: 3px solid var(--ochre);
+  border-radius: 0 4px 4px 0;
+  color: var(--text-dim);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.wu-quote strong{ color: var(--bright); font-weight: 700; }
+
+.wu-list{
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+.wu-list li{
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.wu-list li::before{
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--turquoise);
+  font-weight: 700;
+}
+.wu-list li:last-child{ margin-bottom: 0; }
+
+.wu-image{
+  margin: 0 0 22px;
+  padding: 0;
+}
+.wu-image img{
+  display: block;
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.wu-image figcaption{
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--text-faint);
+}
+.wu-inline-img{
+  max-height: 1.4em;
+  vertical-align: middle;
+  border-radius: 3px;
+}
 
 /* ---------- inline emphasis inside prose (summaries, notes) ---------- */
 .lead{ color: var(--bright); font-weight: 700; }
