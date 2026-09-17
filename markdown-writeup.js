@@ -1,53 +1,3 @@
-/* ============================================================
-   grehaus.github.io — markdown write-up renderer
-   Fetches ./content.md (next to whatever page this script runs on),
-   parses it, and fills in #infocard-mount and #term-mount.
-
-   content.md format:
-
-     ---
-     source: Hack The Box
-     title: Lab01
-     difficulty: medium        (easy | medium | hard | insane)
-     tags: SMB, Web Exploitation, Active Directory
-     summary: **Lab01:** short summary here, `code` and **bold** work.
-     ---
-
-     ## [01] Step label
-     ```term
-     $ command goes here
-     plain output line
-     !!this line gets highlighted acid-green — the !! is stripped
-     ??this line gets highlighted turquoise — a second, distinct tier
-     ```
-
-     A paragraph of narrative text between steps. `code` and **bold**
-     work here too. Can be written across multiple source lines freely.
-
-     > A blockquote/callout — renders as a distinct tinted box with a
-     > colored left border. Good for asides, gotchas, or "here's an
-     > article that helped me" notes. Consecutive `>` lines join into
-     > one callout; a blank line ends it.
-
-     - A bullet list item
-     - Another item
-       (list ends at the first blank line or non "- " line)
-
-     ![alt text](path/to/image.png)
-     (a line that is ONLY an image tag becomes its own full-width
-     figure; ![alt](src) written mid-sentence in a paragraph instead
-     renders inline)
-
-     ## [02] Next step
-     ...
-
-   Notes:
-   - A ```term block whose first line does NOT start with "$ " is
-     rendered as plain output only (no command line) — use this for
-     pasting raw code/config files, not just command+output pairs.
-   - Everything inside ```term blocks and paragraphs is HTML-escaped
-     automatically. Never worry about <, >, & again.
-   ============================================================ */
 (function () {
   const DIFF_FILL = { easy: 2, medium: 5, hard: 8, insane: 10 };
 
@@ -302,4 +252,8 @@ Serve it locally instead, e.g.: <span class="prompt">python3 -m http.server</spa
   } else {
     init();
   }
+
+  window.WriteupRenderer = {
+    parseFrontmatter, parseBlocks, renderInfoCard, renderBody, escapeHTML, inlineFormat
+  };
 })();

@@ -1,11 +1,3 @@
-/* ============================================================
-   grehaus.github.io — terminal dot easter eggs
-   One file, linked from every page (same pattern as style.css).
-   Automatically upgrades every .win terminal window's three dots:
-     dot 1 (orange) -> glitch "power cycle" animation
-     dot 2 (ochre)  -> collapse / expand the terminal body
-     dot 3 (sky)    -> hidden matrix-rain message
-   ============================================================ */
 (function () {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -145,4 +137,8 @@
   }
 
   document.querySelectorAll('.win').forEach(upgradeWindow);
+
+  window.reinitWinDots = function (root) {
+    (root || document).querySelectorAll('.win').forEach(upgradeWindow);
+  };
 })();

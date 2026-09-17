@@ -1,8 +1,3 @@
-/* ============================================================
-   grehaus.github.io — shared site styles
-   One file, linked from every page. Edit here, it updates everywhere.
-   ============================================================ */
-
 :root{
   --bg:        #17181a;
   --bg-alt:    #1c1d20;
@@ -278,6 +273,68 @@ section h2 span{ color: var(--rust); }
   vertical-align: middle;
   border-radius: 3px;
 }
+
+/* ---------- password lock screen (protected write-ups) ---------- */
+.lock-body{
+  padding: 32px 22px 34px;
+  text-align: left;
+}
+.lock-body .row{ margin: 0 0 6px; }
+.lock-icon{
+  color: var(--rust);
+  font-size: 13px;
+  letter-spacing: .04em;
+  margin: 0 0 18px;
+}
+.lock-form{
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-chip);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin: 4px 0 10px;
+}
+.lock-form .lock-prompt{
+  color: var(--text-faint);
+  font-family: var(--mono);
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+.lock-form input[type="password"]{
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--bright);
+  font-family: var(--mono);
+  font-size: 14.5px;
+  padding: 0 10px;
+  caret-color: var(--turquoise);
+}
+.lock-form input[type="password"]::placeholder{ color: var(--text-faint); }
+.lock-form button{
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--bg);
+  background: var(--turquoise);
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: opacity .15s;
+}
+.lock-form button:hover{ opacity: .85; }
+.lock-form button:disabled{ opacity: .5; cursor: default; }
+.lock-error{
+  min-height: 18px;
+  color: var(--rust);
+  font-size: 13px;
+  margin: 0;
+}
+#unlocked-content[hidden]{ display: none; }
 
 /* ---------- inline emphasis inside prose (summaries, notes) ---------- */
 .lead{ color: var(--bright); font-weight: 700; }
