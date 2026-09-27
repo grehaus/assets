@@ -216,6 +216,49 @@ section h2 span{ color: var(--rust); }
 .code-block .hl{ color: var(--acid); }
 .code-block .hl2{ color: var(--turquoise); }
 
+/* ---------- language-tagged code blocks (```python, ```js, etc.) ---------- */
+.code-block--lang{ position: relative; padding-top: 30px; }
+.code-lang-tag{
+  position: absolute; top: 8px; right: 10px;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--text-faint);
+  background: var(--bg-term);
+  border: 1px solid var(--border-hi);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+.code-block--lang pre[class*="language-"]{
+  background: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: var(--mono) !important;
+  font-size: 14.5px !important;
+  line-height: 1.7 !important;
+  white-space: pre !important;
+  text-shadow: none !important;
+}
+.code-block--lang code[class*="language-"]{
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  color: var(--text) !important;
+  font-family: var(--mono) !important;
+  font-size: inherit !important;
+  text-shadow: none !important;
+}
+
+/* Prism token colors, mapped onto the site's own palette instead of
+   a default Prism theme */
+.token.comment, .token.prolog, .token.doctype, .token.cdata{ color: var(--text-faint); font-style: italic; }
+.token.keyword, .token.selector, .token.atrule, .token.important{ color: var(--turquoise); }
+.token.string, .token.attr-value, .token.char{ color: var(--ochre); }
+.token.number, .token.boolean, .token.constant, .token.symbol{ color: var(--acid); }
+.token.function, .token.class-name{ color: var(--rust); }
+.token.operator, .token.punctuation, .token.entity{ color: var(--text-dim); }
+.token.property, .token.attr-name, .token.variable{ color: var(--turquoise); }
+.token.tag, .token.builtin{ color: var(--rust); }
+.token.regex, .token.important, .token.bold{ font-weight: 700; }
+
 /* ---------- markdown callouts, lists, images ---------- */
 .wu-quote{
   margin: 0 0 22px;
@@ -596,16 +639,6 @@ footer .prompt::before{ color: var(--text-faint); }
   .entry-name{ min-width: 0; width: 100%; }
 }
 
-/* ============================================================
-   terminal dot easter eggs (see /assets/interactive.js)
-   ochre = collapse/expand   rust = glitch power-cycle   turquoise = matrix rain
-   ============================================================ */
-
-/* ochre dot: collapse/expand — height is set dynamically in JS.
-   No !important here: the JS resets max-height to 'none' itself once
-   the expand transition finishes, which is what keeps the animation
-   smooth. An !important override here would just fight the JS and
-   make it snap instead of animate. */
 .win-body{
   overflow: hidden;
   transition: max-height .4s ease, opacity .3s ease, padding .4s ease;

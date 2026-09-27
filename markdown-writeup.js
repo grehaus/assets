@@ -65,10 +65,12 @@
       paraBuf = []; quoteBuf = []; listBuf = []; mode = null;
     }
 
+    let codeLang = 'term';
+
     for (const rawLine of lines) {
       if (inCode) {
         if (rawLine.trim() === '```') {
-          blocks.push({ type: 'code', lines: codeLines });
+          blocks.push({ type: 'code', lang: codeLang, lines: codeLines });
           codeLines = [];
           inCode = false;
         } else {
@@ -79,9 +81,11 @@
 
       const line = rawLine.trim();
 
-      if (line.startsWith('```')) {
+      const fenceMatch = line.match(/^```(\w*)/);
+      if (fenceMatch) {
         flush();
         inCode = true;
+        codeLang = (fenceMatch[1] || 'term').toLowerCase();
         continue;
       }
       if (/^##\s+/.test(line)) {
@@ -194,6 +198,16 @@
     return `<div class="code-block"><pre>${inner}</pre></div>`;
   }
 
+  // Any fence language other than "term" (e.g. ```python, ```js) is
+  // real source code, not a command+output transcript — hand it to
+  // Prism for real syntax highlighting instead of the cmd/out/hl
+  // styling that renderCode() above does.
+  function renderCodeGeneric(lang, lines) {
+    const code = escapeHTML(lines.join('\n'));
+    const tag = `<span class="code-lang-tag">${escapeHTML(lang)}</span>`;
+    return `<div class="code-block code-block--lang">${tag}<pre><code class="language-${escapeHTML(lang)}">${code}</code></pre></div>`;
+  }
+
   function renderQuote(text) {
     return `<blockquote class="wu-quote">${inlineFormat(text)}</blockquote>`;
   }
@@ -213,7 +227,7 @@
   function renderBody(blocks) {
     return blocks.map(b => {
       if (b.type === 'heading') return renderHeading(b.text);
-      if (b.type === 'code') return renderCode(b.lines);
+      if (b.type === 'code') return b.lang === 'term' ? renderCode(b.lines) : renderCodeGeneric(b.lang, b.lines);
       if (b.type === 'quote') return renderQuote(b.text);
       if (b.type === 'list') return renderList(b.items);
       if (b.type === 'image') return renderImage(b.alt, b.src);
@@ -236,6 +250,7 @@
         const blocks = parseBlocks(body);
         if (infoMount) infoMount.innerHTML = renderInfoCard(meta);
         if (termMount) termMount.innerHTML = renderBody(blocks);
+        if (termMount && window.Prism) window.Prism.highlightAllUnder(termMount);
       })
       .catch(err => {
         console.error('[markdown-writeup]', err);

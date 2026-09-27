@@ -60,6 +60,7 @@
 
       if (infoMount) infoMount.innerHTML = window.WriteupRenderer.renderInfoCard(meta);
       if (termMount) termMount.innerHTML = window.WriteupRenderer.renderBody(blocks);
+      if (termMount && window.Prism) window.Prism.highlightAllUnder(termMount);
 
       gate.remove();
       unlockedWrap.hidden = false;
