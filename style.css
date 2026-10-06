@@ -273,6 +273,54 @@ section h2 span{ color: var(--rust); }
 }
 .wu-quote strong{ color: var(--bright); font-weight: 700; }
 
+.wu-briefing{
+  margin: 0 0 22px;
+  padding: 16px 18px 16px;
+  background: var(--bg-chip);
+  border: 1px solid var(--acid);
+  border-radius: var(--radius);
+  position: relative;
+}
+.wu-briefing-label{
+  display: inline-block;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--acid);
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+.wu-briefing p{
+  margin: 0;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.wu-briefing strong{ color: var(--bright); font-weight: 700; }
+
+/* inline links inside markdown-rendered prose */
+.win-body .note a,
+.wu-quote a,
+.wu-briefing a,
+.wu-list a,
+.infocard .ic-summary a{
+  color: var(--turquoise);
+  text-decoration: underline;
+  text-decoration-color: var(--turquoise-dim);
+  text-underline-offset: 2px;
+}
+.win-body .note a:hover,
+.wu-quote a:hover,
+.wu-briefing a:hover,
+.wu-list a:hover,
+.infocard .ic-summary a:hover{
+  text-decoration-color: var(--turquoise);
+}
+
 .wu-list{
   margin: 0 0 22px;
   padding: 0;

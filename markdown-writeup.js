@@ -16,6 +16,10 @@
     s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     // inline image, e.g. mid-sentence: ![alt](path.png)
     s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img class="wu-inline-img" src="$2" alt="$1">');
+    // inline link: [text](url) — runs after the image replacement above,
+    // so an image's ![...](...)  is already consumed and can't be
+    // mistaken for a link here.
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
     return s;
   }
 
@@ -48,11 +52,12 @@
     let codeLines = [];
 
     // mode tracks which multi-line block we're currently accumulating:
-    // null | 'para' | 'quote' | 'list'
+    // null | 'para' | 'quote' | 'list' | 'briefing'
     let mode = null;
     let paraBuf = [];
     let quoteBuf = [];
     let listBuf = [];
+    let briefingBuf = [];
 
     function flush() {
       if (mode === 'para' && paraBuf.length) {
@@ -61,8 +66,10 @@
         blocks.push({ type: 'quote', text: quoteBuf.join(' ').trim() });
       } else if (mode === 'list' && listBuf.length) {
         blocks.push({ type: 'list', items: listBuf.slice() });
+      } else if (mode === 'briefing' && briefingBuf.length) {
+        blocks.push({ type: 'briefing', text: briefingBuf.join(' ').trim() });
       }
-      paraBuf = []; quoteBuf = []; listBuf = []; mode = null;
+      paraBuf = []; quoteBuf = []; listBuf = []; briefingBuf = []; mode = null;
     }
 
     let codeLang = 'term';
@@ -101,6 +108,12 @@
       if (imgMatch) {
         flush();
         blocks.push({ type: 'image', alt: imgMatch[1], src: imgMatch[2] });
+        continue;
+      }
+      if (line.startsWith('!') && !line.startsWith('![')) {
+        const content = line.replace(/^!\s?/, '');
+        if (mode !== 'briefing') { flush(); mode = 'briefing'; }
+        briefingBuf.push(content);
         continue;
       }
       if (line.startsWith('>')) {
@@ -212,6 +225,10 @@
     return `<blockquote class="wu-quote">${inlineFormat(text)}</blockquote>`;
   }
 
+  function renderBriefing(text) {
+    return `<div class="wu-briefing"><span class="wu-briefing-label">Briefing</span><p>${inlineFormat(text)}</p></div>`;
+  }
+
   function renderList(items) {
     const li = items.map(i => `<li>${inlineFormat(i)}</li>`).join('');
     return `<ul class="wu-list">${li}</ul>`;
@@ -229,6 +246,7 @@
       if (b.type === 'heading') return renderHeading(b.text);
       if (b.type === 'code') return b.lang === 'term' ? renderCode(b.lines) : renderCodeGeneric(b.lang, b.lines);
       if (b.type === 'quote') return renderQuote(b.text);
+      if (b.type === 'briefing') return renderBriefing(b.text);
       if (b.type === 'list') return renderList(b.items);
       if (b.type === 'image') return renderImage(b.alt, b.src);
       return `<p class="note">${inlineFormat(b.text)}</p>`;
