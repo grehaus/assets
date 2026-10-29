@@ -1,3 +1,8 @@
+/* ============================================================
+   grehaus.github.io — shared site styles
+   One file, linked from every page. Edit here, it updates everywhere.
+   ============================================================ */
+
 :root{
   --bg:        #17181a;
   --bg-alt:    #1c1d20;
@@ -212,7 +217,7 @@ section h2 span{ color: var(--rust); }
 }
 .code-block .cmd{ color: var(--turquoise); }
 .code-block .cmd::before{ content:"$ "; color: var(--text-faint); }
-.code-block .out{ color: var(--text-dim); }
+.code-block .out{ color: var(--text); }
 .code-block .hl{ color: var(--acid); }
 .code-block .hl2{ color: var(--turquoise); }
 
@@ -301,6 +306,9 @@ section h2 span{ color: var(--rust); }
   word-break: break-word;
 }
 .wu-briefing strong{ color: var(--bright); font-weight: 700; }
+.wu-briefing p + p{ margin-top: 14px; }
+.wu-quote p{ margin: 0; }
+.wu-quote p + p{ margin-top: 10px; }
 
 /* inline links inside markdown-rendered prose */
 .win-body .note a,
@@ -528,7 +536,14 @@ code{
 a.entry-link:hover{ background: rgba(255,255,255,0.02); text-decoration:none; }
 a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-color: var(--turquoise); }
 
-.entry-name{ font-weight:700; color: var(--bright); font-size: 15px; width: 130px; flex-shrink: 0; }
+/* Fixed width keeps every row's difficulty bar lined up. overflow-wrap
+   means a name that's still too long wraps onto a second line inside its
+   own column instead of spilling over the bar. */
+.entry-name{
+  font-weight: 700; color: var(--bright); font-size: 15px;
+  width: 240px; flex-shrink: 0;
+  overflow-wrap: anywhere;
+}
 
 .entry-bar{ display:inline-flex; gap:2px; flex-shrink:0; }
 .entry-bar span{ width:9px; height:11px; background:var(--border); border-radius:1px; }
@@ -687,6 +702,16 @@ footer .prompt::before{ color: var(--text-faint); }
   .entry-name{ min-width: 0; width: 100%; }
 }
 
+/* ============================================================
+   terminal dot easter eggs (see /assets/interactive.js)
+   ochre = collapse/expand   rust = glitch power-cycle   turquoise = matrix rain
+   ============================================================ */
+
+/* ochre dot: collapse/expand — height is set dynamically in JS.
+   No !important here: the JS resets max-height to 'none' itself once
+   the expand transition finishes, which is what keeps the animation
+   smooth. An !important override here would just fight the JS and
+   make it snap instead of animate. */
 .win-body{
   overflow: hidden;
   transition: max-height .4s ease, opacity .3s ease, padding .4s ease;
