@@ -142,7 +142,18 @@
     }
     return out;
   }
-
+  function attrEscape(str) {
+    return escapeHTML(str).replace(/"/g, '&quot;');
+  }
+  function renderTarget(raw) {
+    const t = (raw || '').trim();
+    if (!t) return '';
+    const value = /^https?:\/\/\S+$/i.test(t)
+      ? `<a href="${attrEscape(t)}" target="_blank" rel="noopener">${escapeHTML(t)}</a>`
+      : inlineFormat(t);
+    return `<hr class="ic-rule">
+    <p class="ic-target"><span class="ic-target-icon" aria-hidden="true">🎯</span> <span class="ic-target-label">Target:</span> ${value}</p>`;
+  }
   function renderInfoCard(meta) {
     const difficulty = (meta.difficulty || 'easy').toLowerCase();
     const filled = DIFF_FILL[difficulty] || 2;
@@ -174,6 +185,7 @@
       <h3>Skills</h3>
       <p class="ic-skills">${tags.map(t => escapeHTML(t)).join(' <span class="dot-sep">•</span> ')}</p>
     </div>
+    ${renderTarget(meta.target)} 
   </div>
 </div>`.trim();
   }

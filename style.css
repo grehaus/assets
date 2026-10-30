@@ -282,7 +282,7 @@ section h2 span{ color: var(--rust); }
   margin: 0 0 22px;
   padding: 16px 18px 16px;
   background: var(--bg-chip);
-  border: 1px solid var(--acid);
+  border: 1px solid var(--ochre);
   border-radius: var(--radius);
   position: relative;
 }
@@ -293,7 +293,7 @@ section h2 span{ color: var(--rust); }
   letter-spacing: .12em;
   font-weight: 700;
   color: var(--bg);
-  background: var(--acid);
+  background: var(--ochre);
   padding: 2px 8px;
   border-radius: 3px;
   margin-bottom: 10px;
@@ -682,7 +682,23 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   overflow-wrap: break-word; word-break: break-word;
 }
 .ic-skills .dot-sep{ color: var(--ochre); margin: 0 2px; }
-
+.ic-target{
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 13.5px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.ic-target-icon{ margin-right: 2px; }
+.ic-target-label{ color: var(--text-dim); font-weight: 700; }
+.ic-target a{
+  color: var(--turquoise);
+  text-decoration: underline;
+  text-decoration-color: var(--turquoise-dim);
+  text-underline-offset: 2px;
+}
+.ic-target a:hover{ text-decoration-color: var(--turquoise); }
 /* ---------- footer ---------- */
 footer{
   max-width: 960px; margin: 0 auto; padding: 20px 20px 60px;
