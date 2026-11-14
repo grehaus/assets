@@ -1,8 +1,3 @@
-/* ============================================================
-   grehaus.github.io — shared site styles
-   One file, linked from every page. Edit here, it updates everywhere.
-   ============================================================ */
-
 :root{
   --bg:        #17181a;
   --bg-alt:    #1c1d20;
@@ -775,4 +770,65 @@ footer .prompt::before{ color: var(--text-faint); }
 @media (prefers-reduced-motion: reduce){
   *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .win.is-glitching{ animation: none; }
+}
+
+/* ---------- difficulty groups on platform pages (see /assets/groups.js) ---------- */
+.dgroup{ border-bottom: 1px solid var(--border); }
+.dgroup:last-child{ border-bottom: none; }
+.dgroup.difficulty-easy   { --diff-color: var(--diff-easy); }
+.dgroup.difficulty-medium { --diff-color: var(--diff-medium); }
+.dgroup.difficulty-hard   { --diff-color: var(--diff-hard); }
+.dgroup.difficulty-insane { --diff-color: var(--diff-insane); }
+
+.dgroup-head{
+  width: 100%;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 14px; color: var(--text);
+  text-align: left;
+}
+.dgroup-head:hover{ background: rgba(255,255,255,0.02); }
+.dgroup-head:focus-visible{ outline-offset: -2px; }
+
+.dgroup-chevron{
+  width: 12px; display: inline-block;
+  color: var(--text-faint);
+  transition: transform .25s ease, color .25s ease;
+}
+.dgroup.open .dgroup-chevron{ transform: rotate(90deg); color: var(--diff-color); }
+
+.dgroup-name{ width: 70px; font-weight: 700; color: var(--diff-color); }
+.dgroup-bar{ color: var(--diff-color); }
+.dgroup-count{
+  font-size: 11px; color: var(--text-dim);
+  border: 1px solid var(--border-hi); border-radius: 999px;
+  padding: 1px 9px;
+}
+
+/* smooth height without measuring anything in JS: animate 0fr -> 1fr */
+.dgroup-body{
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;                               /* collapsed links can't be tabbed to */
+  transition: grid-template-rows .35s ease, visibility 0s linear .35s;
+}
+.dgroup.open .dgroup-body{
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows .35s ease, visibility 0s linear 0s;
+}
+.dgroup-inner{ overflow: hidden; min-height: 0; }
+
+/* rows fade/slide in one after another when a group opens */
+.dgroup .entry-link{
+  opacity: 0;
+  transform: translateY(-4px);
+  padding-left: 44px;                               /* sit under the group name */
+  transition: opacity .2s ease, transform .2s ease;
+}
+.dgroup.open .entry-link{
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 50ms + 120ms);
 }
