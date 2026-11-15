@@ -258,6 +258,14 @@ section h2 span{ color: var(--rust); }
 .token.property, .token.attr-name, .token.variable{ color: var(--turquoise); }
 .token.tag, .token.builtin{ color: var(--rust); }
 .token.regex, .token.important, .token.bold{ font-weight: 700; }
+.token.command, .token.url{ color: var(--turquoise); }
+.token.parameter{ color: var(--ochre); }
+.token.inserted, .token.inserted-sign, .token.inserted-arrow{ color: var(--acid); }
+.token.deleted, .token.deleted-sign, .token.deleted-arrow{ color: var(--rust); }
+.token.coord{ color: var(--turquoise); }
+.token.commit-sha1{ color: var(--ochre); }
+.token.diff{ color: var(--text-dim); font-weight: 700; }
+.token.italic{ font-style: italic; }
 
 /* ---------- markdown callouts, lists, images ---------- */
 .wu-quote{
