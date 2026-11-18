@@ -702,6 +702,7 @@ a.entry-link:hover .entry-name{ text-decoration: underline; text-decoration-colo
   text-underline-offset: 2px;
 }
 .ic-target a:hover{ text-decoration-color: var(--turquoise); }
+.ic-target + .ic-target{ margin-top: 6px; }
 /* ---------- footer ---------- */
 footer{
   max-width: 960px; margin: 0 auto; padding: 20px 20px 60px;
