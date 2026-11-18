@@ -145,14 +145,22 @@
   function attrEscape(str) {
     return escapeHTML(str).replace(/"/g, '&quot;');
   }
-  function renderTarget(raw) {
-    const t = (raw || '').trim();
+  function renderInfoLine(raw, defaultIcon, label) {
+    let t = (raw || '').trim();
     if (!t) return '';
+    let icon = defaultIcon;
+    const custom = t.match(/^(\p{Extended_Pictographic}\S*)\s+(.+)$/u);
+    if (custom) { icon = custom[1]; t = custom[2].trim(); }
     const value = /^https?:\/\/\S+$/i.test(t)
       ? `<a href="${attrEscape(t)}" target="_blank" rel="noopener">${escapeHTML(t)}</a>`
       : inlineFormat(t);
-    return `<hr class="ic-rule">
-    <p class="ic-target"><span class="ic-target-icon" aria-hidden="true">🎯</span> <span class="ic-target-label">Target:</span> ${value}</p>`;
+    return `<p class="ic-target"><span class="ic-target-icon" aria-hidden="true">${escapeHTML(icon)}</span> <span class="ic-target-label">${label}:</span> ${value}</p>`;
+  }
+
+  function renderInfoLinks(meta) {
+    const lines = renderInfoLine(meta.target, '🎯', 'Target') +
+                  renderInfoLine(meta.platform, '🚩', 'Platform');
+    return lines ? `<hr class="ic-rule">\n    ${lines}` : '';
   }
   function renderInfoCard(meta) {
     const difficulty = (meta.difficulty || 'easy').toLowerCase();
@@ -185,7 +193,7 @@
       <h3>Skills</h3>
       <p class="ic-skills">${tags.map(t => escapeHTML(t)).join(' <span class="dot-sep">•</span> ')}</p>
     </div>
-    ${renderTarget(meta.target)} 
+    ${renderInfoLinks(meta)} 
   </div>
 </div>`.trim();
   }
